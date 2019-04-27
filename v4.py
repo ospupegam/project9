@@ -40,45 +40,60 @@ for p,j in ko_genes_dict.items():
         ko_genes_dict_new[p]=l
 print(ko_genes_dict_new)
 print("=="*10)
-org_dict={}
-for g_id, o_info in ko_genes_dict.items():
-    for k,olist in o_info.items():
-        print(k)
-        for y in olist:
-            g=[]
-            if y in org_list:
-                g.append(k)
-                org_dict[y]=g
-                if y == "smin":
-                    smin=+1
-                if y == "pti":
-                    pti=+1
-                if y=="fcy":
-                    fcy=+1
-                if y=="tps":
-                    tps=+1
-                if y=="cre":
-                    cre=+1
-                if y=="vcn":
-                    vcn=+1
-                if y=="mng":
-                    mng=+1
-                if y=="olu":
-                    olu=+1
-                if y=="ota":
-                    ota=+1
-                if y=="bpg":
-                    bpg=+1
-                if y=="mis":
-                    mis=+1
-                if y=="mpp":
-                    mpp=+1
-                if y=="csl":
-                    csl=+1
-                if y=="cvr":
-                    cvr=+1
-                if y=="apro":
-                    apro=+1
+org_dict = {}
 
-print("smin",smin,"pti",pti,"fcy",fcy,"tps",tps,"cre",cre,"vcn",vcn,"mng",mng,"olu",olu,"otb",ota,"bpg",bpg,"mis",mis,"mpp",mpp,"csl",csl,"cvr",cvr,"apro",apro)
-print(org_dict)
+for org in org_list:  # creating empty dictionary with keys
+    org_dict[org] = []
+
+for v in ko_genes_dict_new.values():  # Looping over the parent dict values
+    for ko, org_lst in v.items():  # Lopping over ko:orgs dict for each pathway
+        for org in org_lst:  # looping over orgs
+            if ko not in org_dict[org]:  # making sure that no repeated items in org list (could be unnecessary step)
+                org_dict[org].append(ko)
+
+print org_dict
+
+# for g_id, o_info in ko_genes_dict.items():
+#     for k, olist in o_info.items():
+#         print(k)
+#         for y in olist:
+#             g = []
+#             if y in org_list:
+#                 g.append(k)
+#                 org_dict[y] = g
+#                 if y == "smin":
+#                     smin = +1
+#                 if y == "pti":
+#                     pti = +1
+#                 if y == "fcy":
+#                     fcy = +1
+#                 if y == "tps":
+#                     tps = +1
+#                 if y == "cre":
+#                     cre = +1
+#                 if y == "vcn":
+#                     vcn = +1
+#                 if y == "mng":
+#                     mng = +1
+#                 if y == "olu":
+#                     olu = +1
+#                 if y == "ota":
+#                     ota = +1
+#                 if y == "bpg":
+#                     bpg = +1
+#                 if y == "mis":
+#                     mis = +1
+#                 if y == "mpp":
+#                     mpp = +1
+#                 if y == "csl":
+#                     csl = +1
+#                 if y == "cvr":
+#                     cvr = +1
+#                 if y == "apro":
+#                     apro = +1
+#
+# print(
+# "smin", smin, "pti", pti, "fcy", fcy, "tps", tps, "cre", cre, "vcn", vcn, "mng", mng, "olu", olu, "otb", ota, "bpg",
+# bpg, "mis", mis, "mpp", mpp, "csl", csl, "cvr", cvr, "apro", apro)
+# print(org_dict)
+
