@@ -3,7 +3,11 @@ import pyham
 import logging
 
 orth = requests.get('http://rest.kegg.jp/link/ko/ath:AT1G01120')
-print(str(orth.text))
+print(str(orth.text)
+
+r1 = requests.get('https://api.kegg.net/conv//ncbi-geneid/ath:AT1G01120')
+print(str(r1.text))
+
 # con = requests.get('http://rest.kegg.jp/conv/ncbi-geneid/ath:AT1G01120')
 # print(con.text)
 # ath:AT1G01120	ncbi-geneid:839395

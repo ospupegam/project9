@@ -1,5 +1,8 @@
 import requests
 import re
+import csv
+import itertools
+
 p = requests.get('http://rest.kegg.jp/list/pathway/ath') # pathways of ath organusm
 print(p.text)
 path_id_list=[]
@@ -53,5 +56,16 @@ for v in ko_genes_dict_new.values():  # Looping over the parent dict values
 
 print(org_dict)
 
+print(org_dict.values())
 # print("smin",smin,"pti",pti,"fcy",fcy,"tps",tps,"cre",cre,"vcn",vcn,"mng",mng,"olu",olu,"otb",ota,"bpg",bpg,"mis",mis,"mpp",mpp,"csl",csl,"cvr",cvr,"apro",apro)
 # print(org_dict)
+#
+# with open("gene_ortho_org_output.csv", "w") as f:
+#     fieldnames=org_dict.keys()
+#     b=csv.DictWriter(f, fieldnames=fieldnames)
+#     # w = csv.writer( f )
+#     orth_g = org_dict.values()[0].keys()
+#     print(orth_g)
+#     for key in org_dict.keys():
+#         for o in orth_g:
+#             b.writerow([key],[orth_g],[org_dict[key][org] for org in orth_g])
