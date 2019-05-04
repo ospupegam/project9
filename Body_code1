@@ -1,0 +1,45 @@
+"""
+To find the gens orthologs of Arabidopsis which are included in pathogen
+interaction pathway in microalgae.
+------
+NOTES:
+1. create script with name : plant_or_algae_list.py that contain get_plant_or_alge_list function
+2. create script with name : get_plantPathwas.py that contain get_plantPathwas
+3.create script with name : get_geneforPathways.py that contain get_geneforPathways function
+4.create script with name : orth_gene.py that contain getOrthGene function
+5.create script with name : ncbi_gene_id.py that contain ncbi_gene_id_conv function
+6.create script with name : orthologs_group_.py that contain orthologs_group_ function
+7.this program need a fast internet speed
+"""
+
+import requests
+import re
+import json
+from plant_or_algae_List import get_plant_or_alge_list
+from get_geneforPathways import get_geneforPathways
+from get_plantPathways import get_plantPathways
+from orthologs_group_ import orthologs_group_
+
+
+# plants,algae=get_plant_or_alge_list()  # get plants list using subfunction get_plant_or_alge_list that found in plant_or_algae_list.py
+plants=["ath","eus"]
+# create nested dictionary, first one to contain plant organism as a keys and make second dictionary as a values of first one
+# second dictionary contain a pathways of plant organism as a keys and list of gene of each pathways as a values.
+plant_dict = {}
+for plant in plants:  # creating empty nested dictionary with keys
+    plant_dict[plant] = {}
+
+# nested for loop to create nested dictionary, by put plant organism as a keys of first dictionary
+# and pathways of this plant organism as a keys of second dictionary
+# with list of gene of each pathways as a values
+
+for plant in plants:
+    paths = get_plantPathways(plant) # get pathways of plant org by using get_plantPathways in get_plantPathways
+    for path in paths:
+        plant_dict[plant][path] = get_geneforPathways(plant,path) # get gene of each pathways in each plant organism
+
+# showing results as json formate with indent and put it to file to easy show
+print(json.dumps(plant_dict,indent=4))
+my_file=open("plant_pathways_gene.txt","w")
+my_file.write(json.dumps(plant_dict,indent=4)) # put output results ( plants orgamism and pathways of these and gene of each pathways of each plants organism )in file
+my_file.close()
