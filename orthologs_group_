@@ -1,0 +1,45 @@
+"""
+sub function to explore information of each plant organism like genes and no of gene and no of orthogies
+"""
+import requests
+#org_list=["smin","pti","fcy","tps","cre","vcn","mng","olu","ota","bpg","mis","mpp","csl","cvr","apro"]
+#k_genes=['ko:K15397', 'ko:K05391', 'ko:K13448', 'ko:K13436', 'ko:K13447', 'ko:K13460', 'ko:K13448', 'ko:K05391']
+def orthologs_group_(org_list,k_genes):
+    target_genes=[]
+    for gene in k_genes: # extract ko gene name without ko: to optain gene orthology name
+        d=gene[3:]
+        target_genes.append(d)
+    my_file = open("orth.txt", "w")
+    for gene in k_genes:
+        t=requests.get('http://rest.kegg.jp//link/genes/'+gene) # orthology group of each gene
+        n=t.text # convert output from kegg to text to can deal with it
+        my_file.write(n) # put output result in file
+    file = open("algae.txt", "w")
+
+    my_file="orth.txt"
+    for line in open(my_file):
+        for org in org_list:
+         if org in line:
+            file.write(line) # extract line that contain plant organism
+    file="algae.txt"
+    org_dict = {} # intialize empty dictionary
+    for org in org_list:  # intializing empty dictionary with keys
+        org_dict[org] = {}
+    for org in org_list:
+         for line in open(file):
+             if org in line:
+                 kg = line.split()[0][3:] # extract ko gene name from line
+                 if kg not in org_dict[org].keys(): # check of ko gene name don't repeat in looping
+                     org_dict[org][kg]=[] # intializing orthologies list
+                 tw = line.rstrip().split("_")[1] # extract number after "_" that mean orthologies of that gene
+                 if tw not in org_dict[org][kg]: # check if orthologies list items don't repeat
+                    org_dict[org][kg].append(line.rstrip().split("_")[1]) # append orthologies to orthologies list
+# visualization the results
+    print("=="*10)
+    f3 = open('orth_res.txt','w+')
+    for ok in org_dict.keys(): # loop over keys of first dictionary (organism)
+        for gk in org_dict[ok].keys(): # loop over keys of second dictionary (ko gene)
+            print(ok,gk,len(org_dict[ok][gk]),org_dict[ok][gk]) # show the result
+    print("=="*10)
+    f3.close()
+#print(orthologs_group_(org_list,k_genes))
