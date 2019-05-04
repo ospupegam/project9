@@ -1,0 +1,14 @@
+"""
+subfunction to produce list of gene of each pathways for each plant organism
+input: plant organism and pathways selected
+output: list of genes of the above selected pathway
+"""
+import requests
+def get_geneforPathways(plant,path):
+    p = requests.get('http://rest.kegg.jp/link/' + plant +'/'+path)  # gene of pathways of plant organusm
+    gene_id_list = []
+    ncbi_g_list=[]
+    for line in p.text.rstrip().split('\n'): # remove space and split line by tap to separate first element from second
+        kg = line.split('\t')[1] # extract second item ( kegg gene id) from line and append it to list
+        gene_id_list.append(kg)
+    return gene_id_list
