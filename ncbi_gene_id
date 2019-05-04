@@ -1,0 +1,13 @@
+"""
+subfunction to convert from kegg gene_id to ncbi gene_id
+"""
+
+import requests
+
+def ncbi_gene_id_conv(gene_list):
+    j=[]
+    for i in gene_list:
+        ncbi_g = requests.get('http://rest.kegg.jp/conv/ncbi-geneid/'+i) # from kegg api to get ncbi gene id for each kegg gene id
+        for line in ncbi_g.text.rstrip().split("/t"): # remove space and split line by tap to separate first element from second
+            j.append(line.split('\t')[1][12:]) # extract second item ( ncbi gene id) from line and append it to list
+    return j
