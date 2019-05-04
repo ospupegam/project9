@@ -1,0 +1,15 @@
+"""
+subfunction to get orthology of gene
+"""
+import requests
+import re
+#gene_list=["ath:AT1G01120","ath:AT1G01120"]
+def getOrthGene(gene_list):
+    ko_genes=[]
+    c=0
+    for gene in gene_list:
+        orth = requests.get('http://rest.kegg.jp/link/ko/'+gene) # get orthology of gene from kegg data base
+        line= orth.text.rstrip()
+        kg = line.split('\t')[1]  # extract second item ( kegg gene id) from line and append it to list
+        ko_genes.append(kg)
+    return ko_genes
