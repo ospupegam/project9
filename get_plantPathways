@@ -1,0 +1,19 @@
+"""
+create a sub function with :
+input= plant organism as string ,
+output= list of pathways of the above plant organism
+"""
+import requests
+import re
+
+def get_plantPathways(plant):
+    f1=open('pathwayoforg.txt','w+')
+    p = requests.get('http://rest.kegg.jp/list/pathway/'+plant) # pathways of plant organusm by kegg api
+    f1.write(p.text) # put output from kegg to file to can deal with it
+    path_id_list=[]
+    f2='pathwayoforg.txt'
+    for line in open(f2):
+        kg = line.split()[0][5:] # to extract pathways names from each line of file
+        path_id_list.append(kg) # append each pathways from above to list
+    f1.close()
+    return path_id_list # output : list of pathways that append each time.
