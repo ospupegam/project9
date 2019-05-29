@@ -194,6 +194,4 @@ print(n)
 h=np.sum(n, axis=1)
 print(h)
 
-myfile3=open("outgene-koarray.txt","w+")
-myfile3.write(n)
-myfile3.close()
+myfile3=np.savetxt("outgene-koarray.txt",n ,fmt='%d')
